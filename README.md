@@ -2,9 +2,9 @@
 
 # Requirements:
 
-Python 3.8.0
-PyTorch 1.13.1
-Matplotlib
+- Python 3.8.0
+- PyTorch 1.13.1
+- Matplotlib
 
 # Usage:
 
