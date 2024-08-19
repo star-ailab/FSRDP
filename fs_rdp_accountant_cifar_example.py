@@ -29,10 +29,10 @@ from torch.optim.optimizer import required
 from torch.autograd import Variable
 from torch.autograd import Function
 
-from bayesian_privacy_accountant import BayesianPrivacyAccountant
-
 from opacus import GradSampleModule
 from typing import List, Tuple, Union
+
+import FS_RDP_bounds as fsrdp
 
 from torch.nn.utils._per_sample_grad import call_for_per_sample_grads
 import subprocess as sp
@@ -305,66 +305,8 @@ def get_D_prime(data, label, k):
 
 alphas = np.asarray( [1 + x / 10.0 for x in range(1, 100)] + list(range(12, 64)))
 
-## By Jeremiah
 sigma = opt.sigma
-q=120./50000
-r_over_sigma_tilde=2./sigma
-
-def M_exact(k):
-    M=(-1)**(k-1)*(k-1)
-    
-    for ell in range(2,k+1):
-        M=M+(-1)**(k-ell)*comb(k, ell, exact=True)*np.exp(ell*(ell-1)*r_over_sigma_tilde**2/2)
-    return M
-
-
-def B_bound(m):
-    if m%2==0:
-        return M_exact(m)
-    else:
-        return M_exact(m-1)**(1/2)*M_exact(m+1)**(1/2)
-
-
-def A_bound(alpha,m):
-    if m%2==0:
-        A=0
-        for ell in range(m+1):
-            A=A+comb(m,ell,exact=True)*(-1)**(m-ell)*np.exp((alpha+ell-m-1)*(alpha+ell-m)*r_over_sigma_tilde**2/2)
-        
-        return A
-    else:
-        return A_bound(alpha,m-1)**(1/2)*A_bound(alpha,m+1)**(1/2)
-
-def R_bound(alpha,m):
-    alpha_prod=alpha
-    for j in range(1,m):
-        alpha_prod=alpha_prod*(alpha-j)
-    if 0<alpha-m<1:
-        return q**m/np.math.factorial(m)*alpha_prod*(A_bound(alpha,m)+B_bound(m))
-
-    else:
-        return q**m/np.math.factorial(m)*alpha_prod*(q/(m+1)*A_bound(alpha,m)+(1-q/(m+1))*B_bound(m))
-            
-def H_bound(alpha,m):
-    H_terms=[1.]
-    alpha_prod=alpha
-    for k in range(2,m):
-        alpha_prod=alpha_prod*(alpha-k+1)
-        H_terms.append(q**k/np.math.factorial(k)*alpha_prod*M_exact(k))
-    H_terms.append(R_bound(alpha,m))
-    
-    H=0.
-    for j in range(len(H_terms)):
-       H=H+H_terms[len(H_terms)-1-j] 
-    return H
-
-
-def RDP_eps_one_step(alpha,m):
-    if 0<alpha-m<1:
-        return 1/(alpha-1)*np.log(H_bound(alpha,m+1))
-    else:
-        return 1/(alpha-1)*np.log(H_bound(alpha,m))
-
+q=opt.batchSize/50000.0
 
 def train(trainloader, testloader, student, n_epochs=25, lr=0.0001, accountant=None):
     criterion = nn.CrossEntropyLoss(reduction='none')
@@ -451,7 +393,7 @@ def train(trainloader, testloader, student, n_epochs=25, lr=0.0001, accountant=N
             
             bound_m4 = np.zeros(len(alphas))
             for j in range(len(alphas)):
-                bound_m4[j] = RDP_eps_one_step(alphas[j], 10)
+                bound_m4[j] = fsrdp.FSwoR_RDP_ro(alphas[j], sigma, 4, q)
             
             bounds = bounds + bound_m4
 
