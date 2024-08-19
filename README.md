@@ -11,7 +11,7 @@
 ## To obtain the bounds in our accountant run:
     - python fs_rdp_bounds.py
 
-        - This python file can be used in other applications to utilize our accountant. It contains functions for subsampled mechanisms with and without replacement as well as different implementations for replace-one and add/remove relationship. Below we provide a usage example:
+This python file can be used in other applications to utilize our accountant. It contains functions for subsampled mechanisms with and without replacement as well as different implementations for replace-one and add/remove relationship. Below we provide a usage example:
 
 ## CIFAR-10 example: To privately train a model with our accountant on CIFAR-10 run:
 
