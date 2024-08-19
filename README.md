@@ -17,8 +17,8 @@ This python file can be used in other applications to utilize our accountant. It
 
     - python fs_rdp_accountant_cifar_example
 
-        - A pretrained model is saved under the folder named "saved_models." This is the same as the one used in Abadi et al to non-privately pretrain on CIFAR-100. It can be replaced by other deep learning models.
-        - In order to non-privately train this model on CIFAR-100 locally, one can set the --pretrain switch to "store_false," and then run the above command.
+A pretrained model is saved under the folder named "saved_models." This is the same as the one used in Abadi et al to non-privately pretrain on CIFAR-100. It can be replaced by other deep learning models.
+In order to non-privately train this model on CIFAR-100 locally, one can set the --pretrain switch to "store_false," and then run the above command.
 
 ## To generate Figure 1 and all other figures in the Appendices run:
 
