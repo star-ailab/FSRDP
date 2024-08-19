@@ -1,5 +1,5 @@
-# FSRDP
-Differentially Private Stochastic Gradient Descent with Fixed-Size Minibatches: Tighter RDP Guarantees with or without Replacement
+# Differentially Private Stochastic Gradient Descent with Fixed-Size Minibatches: Tighter RDP Guarantees with or without Replacement
+
 # Requirements:
 
 Python 3.8.0
