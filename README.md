@@ -26,8 +26,8 @@ In order to non-privately train this model on CIFAR-100 locally, one can set the
 
 ## To generate Figure 2 and Figure 3 in the paper run:
 
-    - python fsrdP_accountant_figs_2_3
+    - python plot_Fig2_3.py
 
 ## To generate Figure 4 in the paper run:
 
-    - python eps_vs_delta_cifar_fig_4:
+    - python plot_Fig4.py
