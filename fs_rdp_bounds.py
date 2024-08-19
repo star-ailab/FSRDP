@@ -6,7 +6,7 @@ Created on Wed Jan 17 14:23:18 2024
 """
 
 ##Implementation of fixed-size subsampling (with and without replacement) Renyi Differential Privacy (FS-RDP) method from the paper
-##Renyi DP-SGD with Fixed-Size Minibatches: Tighter Guarantees with or without Replacement
+##Differentially Private Stochastic Gradient Descent with Fixed-Size Minibatches: Tighter RDP Guarantees with or without Replacement
 
 #abbreviations:
 #wR: subsampling with replacement
